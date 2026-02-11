@@ -34,6 +34,9 @@ if [ ! -f "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
   exit 1
 fi
 
+echo "[backup] Activating GCS service account..."
+gcloud auth activate-service-account --key-file="$GOOGLE_APPLICATION_CREDENTIALS"
+
 if [[ ! "$GCS_BUCKET" =~ ^gs:// ]]; then
   echo "[backup] ERROR: GCS_BUCKET must start with gs:// (got: $GCS_BUCKET)" >&2
   exit 1
