@@ -51,7 +51,7 @@ jobs:
       - name: Build and push with multiple tags
         uses: docker/build-push-action@v5
         with:
-          file: Dockerfile.${{ matrix.postgres_major }}
+          file: ${{ matrix.postgres_major }}.Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
           build-args: |
