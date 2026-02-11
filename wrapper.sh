@@ -54,25 +54,24 @@ fi
 ## ============================================================================================================
 ## ================== FORK CHANGED ============================================================================
 
-# Error out if GOOGLE_APPLICATION_CREDENTIALS_PATH is not set, or is empty
-if [ -z "$GOOGLE_APPLICATION_CREDENTIALS_PATH" ]; then
-  echo "GOOGLE_APPLICATION_CREDENTIALS_PATH is not set or is empty. Please set it and redeploy the service."
-  exit 1
-fi
-
 # Error out if GCS_SERVICE_ACCOUNT_JSON is not set, or is empty
 if [ -z "$GCS_SERVICE_ACCOUNT_JSON" ]; then
   echo "GCS_SERVICE_ACCOUNT_JSON is not set or is empty. Please set it and redeploy the service."
   exit 1
 fi
 
+GOOGLE_APPLICATION_CREDENTIALS_DIR="/gcp"
+GOOGLE_APPLICATION_CREDENTIALS_FILE="$GOOGLE_APPLICATION_CREDENTIALS_DIR/gcs-sa.json"
+
 # Write Google Cloud Storage service account key JSON to a file
-echo "GCS service account JSON found, writing credentials to $GOOGLE_APPLICATION_CREDENTIALS_PATH..."
-mkdir -p "$(dirname "$GOOGLE_APPLICATION_CREDENTIALS_PATH")"
-echo "Created directory $(dirname "$GOOGLE_APPLICATION_CREDENTIALS_PATH")"
-echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
+echo "GCS service account JSON found, writing credentials to $GOOGLE_APPLICATION_CREDENTIALS_FILE..."
+mkdir -p "$GOOGLE_APPLICATION_CREDENTIALS_DIR"
+echo "Created directory $GOOGLE_APPLICATION_CREDENTIALS_DIR"
+echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GOOGLE_APPLICATION_CREDENTIALS_FILE"
 echo "Credentials written successfully"
-chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
+chown postgres:postgres "$GOOGLE_APPLICATION_CREDENTIALS_DIR" "$GOOGLE_APPLICATION_CREDENTIALS_FILE"
+chmod 700 "$GOOGLE_APPLICATION_CREDENTIALS_DIR"
+chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_FILE"
 
 ## ============================================================================================================
 ## ============================================================================================================
