@@ -49,7 +49,7 @@ echo "[backup] connecting to ${PGHOST}:${PGPORT} db=${PGDATABASE} user=${PGUSER}
 pg_basebackup \
   -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" \
   -d "$PGDATABASE" \
-  -Ft -z -X fetch \
+  -Ft -z -X none \
   -D - \
 | gcloud storage cp - "${DEST}"
 
