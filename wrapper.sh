@@ -73,6 +73,8 @@ chown postgres:postgres "$GOOGLE_APPLICATION_CREDENTIALS_DIR" "$GOOGLE_APPLICATI
 chmod 700 "$GOOGLE_APPLICATION_CREDENTIALS_DIR"
 chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_FILE"
 
+export GOOGLE_APPLICATION_CREDENTIALS="$GOOGLE_APPLICATION_CREDENTIALS_FILE"
+
 ## ============================================================================================================
 ## ============================================================================================================
 ## ============================================================================================================
