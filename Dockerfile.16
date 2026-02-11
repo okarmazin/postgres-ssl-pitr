@@ -18,12 +18,15 @@ COPY --chmod=755 wrapper.sh /usr/local/bin/wrapper.sh
 
 RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
 
-# Pick a WAL-G release; adjust version as desired
 ARG WALG_VERSION=v3.0.8
-RUN curl -L -o /usr/local/bin/wal-g \
-      "https://github.com/wal-g/wal-g/releases/download/${WALG_VERSION}/wal-g-pg-20.04-amd64" \
-    && chmod +x /usr/local/bin/wal-g
-RUN /usr/local/bin/wal-g --version
+ARG TARGETARCH
+RUN ARCH=$(case "${TARGETARCH}" in arm64) echo "aarch64" ;; *) echo "${TARGETARCH}" ;; esac) \
+    && echo "Detected architecture: ${TARGETARCH}, downloading wal-g binary for: ${ARCH}" \
+    && curl -L -o /usr/local/bin/wal-g \
+      "https://github.com/wal-g/wal-g/releases/download/${WALG_VERSION}/wal-g-pg-20.04-${ARCH}" \
+    && chmod +x /usr/local/bin/wal-g \
+    && echo "wal-g binary installed successfully"
+RUN echo "Verifying wal-g installation..." && /usr/local/bin/wal-g --version
 
 # =================================================================================================
 # =================================================================================================
