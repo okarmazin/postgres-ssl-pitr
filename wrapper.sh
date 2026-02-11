@@ -49,6 +49,28 @@ if [ -f "$POSTGRES_CONF_FILE" ] && [ ! -f "$SSL_DIR/server.crt" ]; then
   bash "$INIT_SSL_SCRIPT"
 fi
 
+## ============================================================================================================
+## ============================================================================================================
+## ============================================================================================================
+## ================== FORK CHANGED ============================================================================
+
+# Error out if GOOGLE_APPLICATION_CREDENTIALS_PATH is not set, or is empty
+if [ -z "$GOOGLE_APPLICATION_CREDENTIALS_PATH" ]; then
+  echo "GOOGLE_APPLICATION_CREDENTIALS_PATH is not set or is empty. Please set it and redeploy the service."
+  exit 1
+fi
+
+# Write Google Cloud Storage service account key JSON to a file
+if [ -n "$GCS_SERVICE_ACCOUNT_JSON" ]; then
+  echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GCP_SA_JSON_FILE"
+  chmod 600 "$GCP_SA_JSON_FILE"
+fi
+
+## ============================================================================================================
+## ============================================================================================================
+## ============================================================================================================
+## ============================================================================================================
+
 # Adds pg_stat_statements to shared_preload_libraries in a config file
 # Usage: add_pg_stat_statements <config_file>
 add_pg_stat_statements() {
