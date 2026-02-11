@@ -60,11 +60,19 @@ if [ -z "$GOOGLE_APPLICATION_CREDENTIALS_PATH" ]; then
   exit 1
 fi
 
-# Write Google Cloud Storage service account key JSON to a file
-if [ -n "$GCS_SERVICE_ACCOUNT_JSON" ]; then
-  echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
-  chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
+# Error out if GCS_SERVICE_ACCOUNT_JSON is not set, or is empty
+if [ -z "$GCS_SERVICE_ACCOUNT_JSON" ]; then
+  echo "GCS_SERVICE_ACCOUNT_JSON is not set or is empty. Please set it and redeploy the service."
+  exit 1
 fi
+
+# Write Google Cloud Storage service account key JSON to a file
+echo "GCS service account JSON found, writing credentials to $GOOGLE_APPLICATION_CREDENTIALS_PATH..."
+mkdir -p "$(dirname "$GOOGLE_APPLICATION_CREDENTIALS_PATH")"
+echo "Created directory $(dirname "$GOOGLE_APPLICATION_CREDENTIALS_PATH")"
+echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
+echo "Credentials written successfully"
+chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
 
 ## ============================================================================================================
 ## ============================================================================================================
