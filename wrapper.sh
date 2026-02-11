@@ -62,8 +62,8 @@ fi
 
 # Write Google Cloud Storage service account key JSON to a file
 if [ -n "$GCS_SERVICE_ACCOUNT_JSON" ]; then
-  echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GCP_SA_JSON_FILE"
-  chmod 600 "$GCP_SA_JSON_FILE"
+  echo "$GCS_SERVICE_ACCOUNT_JSON" > "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
+  chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_PATH"
 fi
 
 ## ============================================================================================================
