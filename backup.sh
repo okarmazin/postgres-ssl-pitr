@@ -43,7 +43,7 @@ if [[ ! "$GCS_BUCKET" =~ ^gs:// ]]; then
 fi
 
 TS=$(date -u +"%Y%m%dT%H%M%SZ")
-DEST="${GCS_BUCKET}/basebackups/${PGDATABASE}/${TS}.tar.gz"
+DEST="${GCS_BUCKET}/${PGDATABASE}/basebackups/${TS}.tar.gz"
 
 echo "[backup] creating base backup -> ${DEST}"
 echo "[backup] connecting to ${PGHOST}:${PGPORT} db=${PGDATABASE} user=${PGUSER}"
