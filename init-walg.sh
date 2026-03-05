@@ -15,7 +15,7 @@ if ! command -v wal-g >/dev/null 2>&1; then
 fi
 
 if [ -z "$WALG_GS_PREFIX" ]; then
-  echo "[init-walg] ERROR: WALG_GS_PREFIX is not set (example: gs://my-bucket/mydb)" >&2
+  echo "[init-walg] ERROR: WALG_GS_PREFIX is not set (example: gs://my-bucket/projectdir)" >&2
   exit 1
 fi
 

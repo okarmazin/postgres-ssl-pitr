@@ -11,6 +11,29 @@ RUN echo "postgres ALL=(root) NOPASSWD: /usr/bin/mkdir, /bin/chown, /usr/bin/ope
 COPY --chmod=755 init-ssl.sh /docker-entrypoint-initdb.d/init-ssl.sh
 COPY --chmod=755 wrapper.sh /usr/local/bin/wrapper.sh
 
+# =================================================================================================
+# =================================================================================================
+# =================================================================================================
+# ============ FORK CHANGED =======================================================================
+
+COPY --chmod=755 init-walg.sh /docker-entrypoint-initdb.d/init-walg.sh
+
+RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
+
+ARG WALG_VERSION=v3.0.8
+ARG TARGETARCH
+RUN ARCH=$(case "${TARGETARCH}" in arm64) echo "aarch64" ;; *) echo "${TARGETARCH}" ;; esac) \
+    && echo "Detected architecture: ${TARGETARCH}, downloading wal-g binary for: ${ARCH}" \
+    && curl -L -o /usr/local/bin/wal-g \
+      "https://github.com/wal-g/wal-g/releases/download/${WALG_VERSION}/wal-g-pg-20.04-${ARCH}" \
+    && chmod +x /usr/local/bin/wal-g \
+    && echo "wal-g binary installed successfully"
+RUN echo "Verifying wal-g installation..." && /usr/local/bin/wal-g --version
+
+# =================================================================================================
+# =================================================================================================
+# =================================================================================================
+# =================================================================================================
 
 ENTRYPOINT ["wrapper.sh"]
 CMD ["postgres", "-p", "5432", "-c", "listen_addresses=*"]

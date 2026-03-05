@@ -9,13 +9,14 @@ RUN echo "postgres ALL=(root) NOPASSWD: /usr/bin/mkdir, /bin/chown, /usr/bin/ope
 
 # Add init scripts while setting permissions
 COPY --chmod=755 init-ssl.sh /docker-entrypoint-initdb.d/init-ssl.sh
-COPY --chmod=755 init-walg.sh /docker-entrypoint-initdb.d/init-walg.sh
 COPY --chmod=755 wrapper.sh /usr/local/bin/wrapper.sh
 
 # =================================================================================================
 # =================================================================================================
 # =================================================================================================
 # ============ FORK CHANGED =======================================================================
+
+COPY --chmod=755 init-walg.sh /docker-entrypoint-initdb.d/init-walg.sh
 
 RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
 
