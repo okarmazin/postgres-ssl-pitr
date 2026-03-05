@@ -75,6 +75,9 @@ chmod 600 "$GOOGLE_APPLICATION_CREDENTIALS_FILE"
 
 export GOOGLE_APPLICATION_CREDENTIALS="$GOOGLE_APPLICATION_CREDENTIALS_FILE"
 
+export WALG_GS_PREFIX="${GCS_BUCKET}/${POSTGRES_DB}"
+echo "Set WALG_GS_PREFIX=$WALG_GS_PREFIX"
+
 ## ============================================================================================================
 ## ============================================================================================================
 ## ============================================================================================================
