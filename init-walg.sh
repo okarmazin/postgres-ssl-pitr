@@ -14,11 +14,6 @@ if ! command -v wal-g >/dev/null 2>&1; then
   exit 1
 fi
 
-if [ -z "$WALG_GS_PREFIX" ]; then
-  echo "[init-walg] ERROR: WALG_GS_PREFIX is not set (example: gs://my-bucket/projectdir)" >&2
-  exit 1
-fi
-
 if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
   echo "[init-walg] ERROR: GOOGLE_APPLICATION_CREDENTIALS is not set (example: /gcp/gcs-sa.json)" >&2
   exit 1
@@ -28,6 +23,8 @@ if [ ! -f "$GOOGLE_APPLICATION_CREDENTIALS" ]; then
   echo "[init-walg] ERROR: Credentials file does not exist at $GOOGLE_APPLICATION_CREDENTIALS" >&2
   exit 1
 fi
+
+WALG_GS_PREFIX="${GCS_BUCKET}/${POSTGRES_DB}"
 
 echo "[init-walg] WALG_GS_PREFIX=$WALG_GS_PREFIX"
 echo "[init-walg] GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS"
